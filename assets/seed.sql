@@ -1,28 +1,84 @@
+-- values for department table 
+INSERT INTO department
+    (name)
+VALUES
+    ("Marketing"),
+    ("Operations"),
+    ("Human Resources"),
+    ("Accounting");
 
-CREATE DATABASE employee_trackerDB;
+-- values for role table
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("Marketing Analyst", 600000, 1);
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("Marketing Coordinator", 40000, 1);
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("Customer Service", 50000, 2);
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("IT", 80000, 2);
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("HR Specialist", 60000, 3);
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("HR Assistant", 40000, 3);
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("Accountant", 750000, 4);
+INSERT INTO role
+    (title, salary, department_id)
+VALUES
+    ("Accountant Assistant", 45000, 4);
 
-USE employee_trackerDB;
-
-CREATE TABLE department (
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(30) NOT NULL,
-  PRIMARY KEY(id)
-);
-CREATE TABLE role (
-id INT NOT NULL AUTO_INCREMENT,
-title VARCHAR(30) NOT NULL,
-salary DECIMAL NOT NULL,
-department_id INT,
-PRIMARY KEY(id),
- FOREIGN KEY(department_id) REFERENCES department(id) 
-);
-CREATE TABLE employee (
-id INT NOT NULL AUTO_INCREMENT,
-first_name VARCHAR(30) NOT NULL,
-last_name VARCHAR(30) NOT NULL,
-role_id INT NOT NULL, 
-manager_id INT  NOT NULL,
-PRIMARY KEY(id),
- FOREIGN KEY(department_id) REFERENCES department(id),
- FOREIGN KEY (manager_id) REFERENCES employee(id)
-);
+-- values for employee table
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Mally", "Zomorrodi", 1, 1);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Amir", "Alavi", 2, 2);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Lili", "Mostofi", 3, 2);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Ladan", "Daneshmand", 4, 3);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Stacie", "Mathews", 5, 3);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Oliver", "Brownfield", 6, 4);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Caspian", "Lawson", 7, 4);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Zephyr", "King", 8, 2);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Jill", "Gardner", 1, 3);
+INSERT INTO employee
+    (first_name, last_name, role_id, manager_id)
+VALUES
+    ("Roger", "Segalla", 6, 4);
