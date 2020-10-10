@@ -1,1 +1,9 @@
 node_modules
+
+# need help with this code/ update manager
+# function updateEmpManager(empID, roleID) {
+#   connection.query('UPDATE employee SET role_id = ? WHERE employee_id = ?', [
+#     roleID,
+#     empID,
+#   ]);
+# }
