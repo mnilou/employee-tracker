@@ -110,7 +110,7 @@ function roleView() {
     startApp();
   });
 }
-// add an employee here
+// add an employee
 function addEmp() {
   const questions = [
     {
@@ -168,7 +168,7 @@ function updateEmpRole() {
     empID,
   ]);
 }
-// add a department here
+// add a department 
 function addDept() {
   inquirer
     .prompt({
@@ -190,7 +190,7 @@ function addDept() {
       );
     });
 }
-// add a role here
+// add a role 
 function addRole() {
   const questions = [
     {
