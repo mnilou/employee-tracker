@@ -7,11 +7,11 @@ VALUES
     ("Human Resources"),
     ("Accounting");
 
--- values for role table
+-- values for role table 1 - 8
 INSERT INTO role
     (title, salary, department_id)
 VALUES
-    ("Marketing Analyst", 600000, 1);
+    ("Marketing Analyst", 60000, 1);
 INSERT INTO role
     (title, salary, department_id)
 VALUES
@@ -35,7 +35,7 @@ VALUES
 INSERT INTO role
     (title, salary, department_id)
 VALUES
-    ("Accountant", 750000, 4);
+    ("Accountant", 75000, 4);
 INSERT INTO role
     (title, salary, department_id)
 VALUES
@@ -43,54 +43,49 @@ VALUES
 
 -- values for employee table
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Mally", "Zomorrodi", 1, 1);
+    ("Mally", "Zomorrodi", NULL, NULL, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Amir", "Alavi", 2, 2);
+    ("Amir", "Alavi", 1, 1, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Lili", "Mostofi", 3, 2);
+    ("Lili", "Mostofi", 1, 2, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Ladan", "Daneshmand", 4, 3);
+    ("Ladan", "Daneshmand", 2, 3, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Stacie", "Mathews", 5, 3);
+    ("Stacie", "Mathews", 2, 4, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Oliver", "Brownfield", 6, 4);
+    ("Oliver", "Brownfield", 3, 5, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Caspian", "Lawson", 7, 4);
+    ("Caspian", "Lawson", 3, 6, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Zephyr", "King", 8, 2);
+    ("Zephyr", "King", 4, 7, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Jill", "Gardner", 1, 3);
+    ("Jill", "Gardner", 4, 8, 1);
 INSERT INTO employee
-    (first_name, last_name, role_id, manager_id)
+    (first_name, last_name, department_id, role_id, manager_id)
 VALUES
-    ("Roger", "Segalla", 6, 4);
+    ("Roger", "Segalla", 2, 3, 1);
 
-SELECT employee.employee_id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
-FROM employee LEFT JOIN role on employee.role_id = role.role_id LEFT JOIN department on role.department_id = department.department_id LEFT JOIN employee manager on manager.manager_id = employee.manager_id;
-
+SELECT *
+FROM employee;
 SELECT *
 FROM department;
-
 SELECT *
 FROM role;
-
-UPDATE employee SET role_id = role_id WHERE employee_id = employee_id;
-

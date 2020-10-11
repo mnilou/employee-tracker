@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
-const {printTable} = require('console.table');
 const figlet = require('figlet');
+require('console.table');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -16,9 +16,14 @@ const connection = mysql.createConnection({
   password: 'password',
   database: 'employee_trackerDB',
 });
-// create ASCII Art from text
-figlet('Employee Tracker', (err, result) => {
-  console.log(err || result);
+// create ASCII Art from text NEED HELP HERE??
+figlet('Employee Tracker', (err, data) => {
+  if (err) {
+    console.log('Something went wrong...');
+    console.dir(err);
+    return;
+  }
+  console.log(data);
 });
 // start connection to db
 connection.connect((err) => {
@@ -28,7 +33,7 @@ connection.connect((err) => {
   console.log('connected as id ' + connection.threadId + '\n');
   startApp();
 });
-// start app with first question and prompt
+// start app with first question and prompt WHY IS THIS SHOWING UP TWICE??
 startApp = () => {
   inquirer
     .prompt([
@@ -48,7 +53,7 @@ startApp = () => {
         ],
       },
     ])
-    .then(function (answer) {
+    .then((answer) => {
       switch (answer.choice) {
         case 'View All Employees':
           employeeView();
@@ -80,7 +85,8 @@ startApp = () => {
 // view all employees
 function employeeView() {
   connection.query(
-    "SELECT employee.employee_id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.role_id LEFT JOIN department on role.department_id = department.department_id LEFT JOIN employee manager on manager.manager_id = employee.manager_id;",
+    "SELECT * from employee",
+    // "SELECT employee.employee_id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.role_id LEFT JOIN department on role.department_id = department.department_id LEFT JOIN employee manager on manager.manager_id = employee.manager_id;",
     function (err, res) {
       if (err) throw err;
       console.table(res);
@@ -124,11 +130,11 @@ function addEmp() {
     },
     {
       type: 'input',
-      message: "Who is the employee's manager (employee_id)?",
+      message: "What is the department title (department_id)?",
       name: 'managerID',
     },
   ];
-  inquirer.prompt(questions).then(function (answer) {
+  inquirer.prompt(questions).then((answer) => {
     connection.query(
       'INSERT INTO employee SET ?',
       {
@@ -139,13 +145,13 @@ function addEmp() {
       },
       function (error) {
         if (error) throw error;
-        updateEmpManager(answer.titleID, answer.managerID);
+        addEmp(answer.titleID, answer.managerID);
         employeeView();
       }
     );
   });
 }
-// update employee roles
+// update employee roles NEED HELP HERE??
 function updateEmpRole() {
   const employees = employeeView();
   const empChoices = employees.map((index) => {
@@ -170,7 +176,7 @@ function addDept() {
       message: 'What would you like to name the new department?',
       name: 'department',
     })
-    .then(function (answer) {
+    .then((answer) => {
       console.log(answer.department);
       connection.query(
         'INSERT INTO department SET ?',
@@ -186,7 +192,7 @@ function addDept() {
 }
 // add a role here
 function addRole() {
-  var questions = [
+  const questions = [
     {
       type: 'input',
       message: 'What type of role would you like to add?',
@@ -198,12 +204,12 @@ function addRole() {
       name: 'id',
     },
     {
-      type: 'list',
+      type: 'input',
       message: 'What is the salary for this role?',
       name: 'salary',
     },
   ];
-  inquirer.prompt(questions).then(function (answer) {
+  inquirer.prompt(questions).then((answer) => {
     connection.query(
       'INSERT INTO role SET ?',
       {
