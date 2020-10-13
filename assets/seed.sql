@@ -89,3 +89,19 @@ SELECT *
 FROM department;
 SELECT *
 FROM role;
+
+-- DELETE sections for demo
+DELETE from employee WHERE employee_id = 11;
+DELETE FROM department WHERE department_id = 5; 
+DELETE FROM role WHERE role_id = 9; 
+
+DELETE from role WHERE role_id = 9;
+DELETE from role WHERE role_id = 10;
+DELETE from role WHERE role_id = 11;
+DELETE from role WHERE role_id = 12;
+DELETE from role WHERE role_id = 13;
+DELETE from role WHERE role_id = 14;
+DELETE from role WHERE role_id = 15;
+DELETE from role WHERE role_id = 16;
+
+DELETE from employee WHERE employee_id = 12;

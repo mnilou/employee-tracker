@@ -1,9 +1,38 @@
 node_modules
 
-# need help with this code/ update manager
-# function updateEmpManager(empID, roleID) {
-#   connection.query('UPDATE employee SET role_id = ? WHERE employee_id = ?', [
-#     roleID,
-#     empID,
-#   ]);
-# }
+
+# // async function updateEmpRole() {
+# //     // UPDATE employee SET role_id = role_id WHERE employee_id = employee_id;
+# //     const employees = await employeeView();
+# //     // console.log(employees);
+# //     const empChoices = employees.map(({ employee_id, first_name, last_name }) => ({
+# //       name: `${first_name}, ${last_name}`,
+# //       id: employee_id,
+  
+# //     }));
+    
+# //     const { employee_id } = await inquirer.prompt({
+# //       type: 'list',
+# //       name: 'employee_id',
+# //       message: ' Which employee would you like to update?',
+# //       choices: empChoices,
+# //     });
+    
+# //     const roles = await roleView();
+# //     const roleChoices = roles.map(({role_id, title}) => ({
+# //       name: title,
+# //       id: role_id,
+  
+# //     }));
+# //     const { role_id } = await inquirer.prompt({
+# //       type: 'list',
+# //       name: 'role_id',
+# //       message: 'What is the employees new role?',
+# //       choices: roleChoices,
+# //     })
+# //     await connection.query('UPDATE employee SET role_id = ? WHERE employee_id = ?', [
+# //       role_id,
+# //       employee_id,
+# //     ]);
+# //     // employeeView();
+# //   }

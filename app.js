@@ -1,6 +1,7 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 const figlet = require('figlet');
+const chalk = require('chalk');
 require('console.table');
 
 const connection = mysql.createConnection({
@@ -16,22 +17,22 @@ const connection = mysql.createConnection({
   password: 'password',
   database: 'employee_trackerDB',
 });
-// create ASCII Art from text NEED HELP HERE??
-figlet('Employee Tracker', (err, data) => {
-  if (err) {
-    console.log('Something went wrong...');
-    console.dir(err);
-    return;
-  }
-  console.log(data);
-});
 // start connection to db
 connection.connect((err) => {
   if (err) {
     throw err;
   }
   console.log('connected as id ' + connection.threadId + '\n');
-  startApp();
+  // create ASCII Art from text NEED HELP HERE??
+  figlet('Employee Tracker', (err, data) => {
+    if (err) {
+      console.log('Something went wrong...');
+      console.dir(err);
+      return;
+    }
+    console.log(chalk.yellowBright.bold.bgCyanBright(data));
+    startApp();
+  });
 });
 // start app with first question and prompt WHY IS THIS SHOWING UP TWICE??
 startApp = () => {
@@ -73,7 +74,7 @@ startApp = () => {
         case 'Add Roles':
           addRole();
           break;
-        case 'Update Employee Roles':
+        case 'Update Employee Role':
           updateEmpRole();
           break;
         case 'EXIT':
@@ -85,7 +86,7 @@ startApp = () => {
 // view all employees
 function employeeView() {
   connection.query(
-    "SELECT * from employee",
+    'SELECT * from employee',
     // "SELECT employee.employee_id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.role_id LEFT JOIN department on role.department_id = department.department_id LEFT JOIN employee manager on manager.manager_id = employee.manager_id;",
     function (err, res) {
       if (err) throw err;
@@ -126,12 +127,17 @@ function addEmp() {
     {
       type: 'input',
       message: "What is the employee's title (role_id)?",
-      name: 'titleID',
+      name: 'role_id',
     },
     {
       type: 'input',
-      message: "What is the department title (department_id)?",
-      name: 'managerID',
+      message: 'What is the department title (department_id)?',
+      name: 'department_id',
+    },
+    {
+      type: 'input',
+      message: 'Assign a manager (manager_id)?',
+      name: 'manager_id',
     },
   ];
   inquirer.prompt(questions).then((answer) => {
@@ -140,8 +146,8 @@ function addEmp() {
       {
         first_name: answer.first_name,
         last_name: answer.last_name,
-        role_id: answer.titleID,
-        manager_id: answer.managerID,
+        role_id: answer.role_id,
+        manager_id: answer.manager_id,
       },
       function (error) {
         if (error) throw error;
@@ -153,22 +159,55 @@ function addEmp() {
 }
 // update employee roles NEED HELP HERE??
 function updateEmpRole() {
-  const employees = employeeView();
-  const empChoices = employees.map((index) => {
-    id: id;
+  // UPDATE employee SET role_id = role_id WHERE employee_id = employee_id;
+  const questions = [
+    {
+      type: 'input',
+      name: 'first_name',
+      message:
+        ' Please enter first name of the employee you would like to update?',
+    },
+    {
+      type: 'input',
+      name: 'last_name',
+      message:
+        ' Please enter last name of the employee you would like to update?',
+    },
+    {
+      type: 'input',
+      name: 'role_id',
+      message: 'What is the employees new role?',
+    },
+    {
+      type: 'input',
+      name: 'employee_id',
+      message: 'What is the employees new department?',
+    },
+    {
+      type: 'input',
+      name: 'manager_id',
+      message: 'Who is the new manager?',
+    },
+  ];
+  inquirer.prompt(questions).then((answer) => {
+    connection.query(
+      'INSERT INTO employee SET ?',
+      {
+        first_name: answer.first_name,
+        last_name: answer.last_name,
+        role_id: answer.role_id,
+        department_id: answer.department_id,
+        manager_id: answer.manager_id,
+      },
+      function (error) {
+        if (error) throw error;
+        updateEmpRole(answer.role_id, answer.department_id, answer.manager_id);
+        employeeView();
+      }
+    );
   });
-  inquirer.prompt({
-    type: 'list',
-    name: 'role id',
-    message: ' Which role would you like to assign the employee?',
-    choices: empChoices,
-  });
-  connection.query('UPDATE employee SET role_id = ? WHERE employee_id = ?', [
-    roleID,
-    empID,
-  ]);
 }
-// add a department 
+// add a department
 function addDept() {
   inquirer
     .prompt({
@@ -190,7 +229,7 @@ function addDept() {
       );
     });
 }
-// add a role 
+// add a role
 function addRole() {
   const questions = [
     {
