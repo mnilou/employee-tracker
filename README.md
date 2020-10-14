@@ -63,4 +63,4 @@ Run `npm run test` to run all tests. This project uses [Jest](https://jestjs.io/
 - Inquirer API
 - Figlet API
 - Console.table API
-<!-- - Jest API -->
+

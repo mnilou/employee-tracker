@@ -152,26 +152,19 @@ function addEmp() {
       function (error) {
         if (error) throw error;
         addEmp(answer.titleID, answer.managerID);
+        console.table(`Updated ${answer.affectedRows} rows`);
         employeeView();
       }
     );
   });
 }
-// update employee roles NEED HELP HERE??
+// update employees role and department
 function updateEmpRole() {
-  // UPDATE employee SET role_id = role_id WHERE employee_id = employee_id;
   const questions = [
     {
       type: 'input',
-      name: 'first_name',
-      message:
-        ' Please enter first name of the employee you would like to update?',
-    },
-    {
-      type: 'input',
-      name: 'last_name',
-      message:
-        ' Please enter last name of the employee you would like to update?',
+      name: 'employee_id',
+      message: ' Please enter the employee id (employee_id)?',
     },
     {
       type: 'input',
@@ -180,33 +173,52 @@ function updateEmpRole() {
     },
     {
       type: 'input',
-      name: 'employee_id',
+      name: 'department_id',
       message: 'What is the employees new department?',
     },
     {
       type: 'input',
       name: 'manager_id',
-      message: 'Who is the new manager?',
+      message: 'Who is the manager?',
     },
   ];
   inquirer.prompt(questions).then((answer) => {
-    connection.query(
-      'INSERT INTO employee SET ?',
-      {
-        first_name: answer.first_name,
-        last_name: answer.last_name,
-        role_id: answer.role_id,
-        department_id: answer.department_id,
-        manager_id: answer.manager_id,
-      },
-      function (error) {
-        if (error) throw error;
-        updateEmpRole(answer.role_id, answer.department_id, answer.manager_id);
+    // UPDATE employee SET role_id = 8, department_id = 4, manager_id = 1 WHERE employee_id = 10;
+    // version 2 - use object for the update values
+
+    //    // version 1 - use array of values only
+    // const sqlString = "UPDATE products SET price = ?, quantity = ? WHERE id = ?";
+    // connection.query(sqlString, [2.5, 40, 2], (err, result) => {
+    //   if (err) {
+    //     throw err;
+    //   }
+    //   console.table(`Updated ${result.affectedRows} rows`)
+    // })
+
+    const query = connection.query(
+      'UPDATE employee SET ? WHERE ?',
+      [
+        {
+          role_id: answer.role_id,
+          department_id: answer.department_id,
+          manager_id: answer.manager_id,
+        },
+        {
+          employee_id: answer.employee_id,
+        },
+      ],
+      (error) => {
+        if (error) {
+          throw error;
+        }
+        console.table(`Updated ${answer.affectedRows} rows`);
         employeeView();
       }
     );
+    console.log(query.sql);
   });
 }
+
 // add a department
 function addDept() {
   inquirer
@@ -222,8 +234,9 @@ function addDept() {
         {
           name: answer.department,
         },
-        function (err, res) {
-          if (err) throw err;
+        function (error) {
+          if (error) throw error;
+          console.table(`Updated ${answer.affectedRows} rows`);
           startApp();
         }
       );
@@ -258,6 +271,7 @@ function addRole() {
       },
       function (error, res) {
         if (error) throw error;
+        console.table(`Updated ${answer.affectedRows} rows`);
         startApp();
       }
     );

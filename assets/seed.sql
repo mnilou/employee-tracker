@@ -90,6 +90,9 @@ FROM department;
 SELECT *
 FROM role;
 
+-- Update section 
+UPDATE employee SET role_id = 8, department_id = 4, manager_id = 1 WHERE employee_id = 10;
+
 -- DELETE sections for demo
 DELETE from employee WHERE employee_id = 11;
 DELETE FROM department WHERE department_id = 5; 
